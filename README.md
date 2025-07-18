@@ -134,7 +134,7 @@ This ensures confidence scores and softmax outputs are printed correctly during 
 
 ---
 
-## 📹 YouTube Demo Coming Soon
+## 📹 YouTube Demo: https://youtu.be/8EbgY_wZ5Qs
 
 A full walkthrough video will be released soon, showing:
 
