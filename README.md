@@ -129,9 +129,8 @@ This ensures confidence scores and softmax outputs are printed correctly during 
 | `cube_output_new.npy` | Softmax predictions |
 | `sentiment_test_vectors.c/h` | Embedded test vectors |
 | `train_keras_model.py` | Script to train and export model |
-| `export_keras_npy.py` | Script to run inference and save `.npy` files |
-| `create_array_from_npy.py` | Converts `.npy` to C arrays |
-| `inference_strings.py` | Optional string mapping for logging |
+| `export_keras_npy.py` | Script to run inference and save `.npy` files  Converts `.npy` to C arrays |
+| `inference_strings.py` | use with the above file |
 
 ---
 
