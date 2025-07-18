@@ -177,18 +177,13 @@ extern const char * text;
 
 extern int global_index;
 
-const char* sentiment_labels[9] = {
+const char* sentiment_labels[5] = {
     "Extreme Negative",
     "Strong Negative",
     "Moderate Negative",
-    "Mild Negative",
-    "Neutral",
-    "Mild Positive",
-    "Moderate Positive",
-    "Strong Positive",
-    "Extreme Positive"
+    "Positive",
+    "Strong Positive"
 };
-
 
 int acquire_and_process_data(ai_i8* data[])
 {
