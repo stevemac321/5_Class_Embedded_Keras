@@ -12,11 +12,14 @@ It upgrades a previous 3-class naive model with finer granularity and full parit
 ## 🎯 Overview
 
 - **Sentiment Classes**:
-  - `0`: Extreme Negative  
-  - `1`: Strong Negative  
-  - `2`: Moderate Negative  
-  - `3`: Mild Negative  
-  - `4`: Neutral
+- 0: Extreme Negative
+- 1: Strong Negative
+- 2: Moderate Negative
+- 3: Positive
+- 4: Strong Positive
+
+
+
 
 - **Model Input**: TF-IDF vector (133 features)  
 - **Model Output**: Softmax over 5 classes  
