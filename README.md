@@ -1,6 +1,4 @@
 
-
-```markdown
 # 5_Class_Embedded_Keras
 
 This repository is **not a complete STM32 project**, but a **walkthrough** showing how to build, validate, and deploy a 5-class sentiment classifier on embedded hardware using Keras, TF-IDF vectorization, and X-CUBE-AI.
@@ -12,18 +10,15 @@ It upgrades a previous 3-class naive model with finer granularity and full parit
 ## 🎯 Overview
 
 - **Sentiment Classes**:
-- 0: Extreme Negative
-- 1: Strong Negative
-- 2: Moderate Negative
-- 3: Positive
-- 4: Strong Positive
-
-
-
+  - 0: Extreme Negative  
+  - 1: Strong Negative  
+  - 2: Moderate Negative  
+  - 3: Positive  
+  - 4: Strong Positive
 
 - **Model Input**: TF-IDF vector (133 features)  
 - **Model Output**: Softmax over 5 classes  
-- **Deployment Target**: STM32 (tested on STM32H723ZG)  
+- **Deployment Target**: STM32 (tested on STM32H723ZG and STM32F401RE)  
 - **Validation**: 100% match between Python and embedded predictions
 
 ---
@@ -39,8 +34,8 @@ python train_keras_model.py
 ```
 
 This produces:
-- `sentiment_model_v2.keras` — the trained model
-- `vectorizer_model.keras` — the saved TF-IDF vectorizer
+- `sentiment_model_v2.keras` — the trained model  
+- `vectorizer_model.keras` — the saved TF-IDF vectorizer  
 - `tfidf_vectorizer.pkl` — optional pickled vectorizer
 
 ---
@@ -54,8 +49,8 @@ python export_keras_npy.py
 ```
 
 This produces:
-- `cube_input.npy` — TF-IDF vectors
-- `cube_output_new.npy` — softmax predictions
+- `cube_input.npy` — TF-IDF vectors  
+- `cube_output_new.npy` — softmax predictions  
 - `inference_strings.py` — optional string mapping
 
 ---
@@ -69,38 +64,52 @@ python create_array_from_npy.py
 ```
 
 This generates:
-- `sentiment_test_vectors.c` — input/output arrays
+- `sentiment_test_vectors.c` — input/output arrays  
 - `sentiment_test_vectors.h` — declarations
 
 ---
 
-### 4️⃣ Import Model into X-CUBE-AI
+### 4️⃣ Create and Configure STM32 Project
 
-- Open STM32CubeMX  
-- Import `sentiment_model_v2.keras`  
-- Verify input shape `(133,)`, output shape `(5,)`  
-- Click **Analyze** → **Generate**
+#### ✅ STM32CubeMX Setup
 
----
+1. Create a new STM32 project (tested on STM32F4 and STM32H7)
+2. Enable **X-CUBE-AI middleware**, core, and application template
+3. Add (+) a network and import `sentiment_model_v2.keras`
+4. Validate input/output shapes using `.npy` files
+5. Increase RAM and stack to `0x1000` (works for both boards)
+6. Generate code
 
-### 5️⃣ Integrate and Run on STM32
+#### ✅ STM32CubeIDE Integration
 
-Use the following embedded files:
-
-- `main.c` — inference loop and logging  
-- `app_x-cube-ai.c` — AI middleware integration  
-- `sentiment_test_vectors.c/h` — test cases and expected outputs
-
-Flash to your STM32 target and run inference. Predictions will be printed over UART or console.
-Absolutely — now that you’ve resolved the floating-point printing issue, it’s worth updating your GitHub to reflect that. Here’s a concise addition you can drop into your `README.md` under the **Embedded Integration** or **Build Notes** section:
+7. Build once to trigger full codegen  
+8. Add `syscalls.c` to fix `_lwrite`, `_read`, etc.  
+9. Go to **Project → Properties → MCU Settings** and enable **Floating Point `printf`**  
+10. Copy `_write()` from the cloned `main.c` and match `huartX` to your UART handle  
+11. Include `sentiment_test_vectors.h` in `main.c`  
+12. Add `.h` to `Core/Inc`, `.c` to `Core/Src`  
+13. Comment out the default call to `MX_X_CUBE_AI_Process()` in the `while(1)` loop  
+14. Include `sentiment_test_vectors.h` in `app_x-cube-ai.c`  
+15. Add user variables:
+    ```c
+    extern const float* user_inputs;
+    extern const float* expected_output;
+    extern const char* text;
+    extern int global_index;
+    ```
+16. Replace `acquire_and_process_data()` and `post_process()` with the cloned versions  
+17. Replace the user code in `MX_X_CUBE_AI_Process()` with the cloned version  
+18. If you regenerate code, reapply:
+    - `syscalls.c`  
+    - `_write()` override  
+    - UART handle  
+    - Inference logic
 
 ---
 
 ## ⚠️ Floating-Point Printing in `printf()`
 
 By default, embedded `printf()` does **not support floating-point formatting** (e.g. `%.2f`) unless explicitly enabled.
-
-To fix this:
 
 ### ✅ STM32CubeIDE (GCC / newlib-nano)
 
@@ -161,5 +170,6 @@ Stay tuned!
 
 - This repo is a walkthrough, not a full STM32CubeIDE project  
 - You’ll need to integrate the files into your own STM32 project manually  
-- Tested with X-CUBE-AI and STM32H723ZG, but portable to other targets
+- Tested with X-CUBE-AI and STM32H723ZG, STM32F401RE — portable to other targets
+
 
