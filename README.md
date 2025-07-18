@@ -55,22 +55,10 @@ This produces:
 - `cube_input.npy` — TF-IDF vectors  
 - `cube_output_new.npy` — softmax predictions  
 - `inference_strings.py` — optional string mapping
+- 'sentiment_test_vectors.h' and 'sentiment_test_vectors.h'
 
 ---
-
-### 3️⃣ Convert to Embedded Format
-
-Use `create_array_from_npy.py` to convert `.npy` files into C arrays:
-
-```bash
-python create_array_from_npy.py
-```
-
-This generates:
-- `sentiment_test_vectors.c` — input/output arrays  
-- `sentiment_test_vectors.h` — declarations
-
----
+(step 3 has been deleted)
 
 ### 4️⃣ Create and Configure STM32 Project
 
