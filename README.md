@@ -92,6 +92,26 @@ Use the following embedded files:
 - `sentiment_test_vectors.c/h` — test cases and expected outputs
 
 Flash to your STM32 target and run inference. Predictions will be printed over UART or console.
+Absolutely — now that you’ve resolved the floating-point printing issue, it’s worth updating your GitHub to reflect that. Here’s a concise addition you can drop into your `README.md` under the **Embedded Integration** or **Build Notes** section:
+
+---
+
+## ⚠️ Floating-Point Printing in `printf()`
+
+By default, embedded `printf()` does **not support floating-point formatting** (e.g. `%.2f`) unless explicitly enabled.
+
+To fix this:
+
+### ✅ STM32CubeIDE (GCC / newlib-nano)
+
+1. Go to **Project → Properties → C/C++ Build → Settings**  
+2. Under **Tool Settings → MCU GCC Linker → Miscellaneous**, add:
+   ```
+   -u _printf_float
+   ```
+3. Clean and rebuild the project
+
+This ensures confidence scores and softmax outputs are printed correctly during inference.
 
 ---
 
