@@ -15,7 +15,7 @@ It upgrades a previous 3-class naive model with finer granularity and full parit
 
 While tokenization and class probabilities align with training labels, some semantic mismatches occur due to limited contextual understanding. For example, positive phrases like “A masterpiece” may be classified as **Extreme Negative** because the model lacks deeper context training.
 
-This highlights a common limitation in supervised models trained on user-labeled data without extensive semantic context. Interpret outputs carefully and consider expanding training data or applying context-aware techniques for improved accuracy.
+This highlights a common limitation in supervised models trained on user-labeled data without extensive semantic context. Interpret outputs carefully and consider expanding training data or applying context-aware techniques for improved accuracy.  Based on manual inspection of each phrase in sentiment_test_vectors.c against the numeric outputs, the model achieves approximately 66% accuracy. While the tokenization and vectorization correctly represent the input text, the model lacks sufficient contextual understanding to consistently align sentiment classifications with the nuanced meaning of each phrase.  
 
 ---
 
