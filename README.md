@@ -1,5 +1,6 @@
 
-# 5_Class_Embedded_Keras
+# 5\_Class\_Embedded\_Keras
+
 ## 🧠 Custom Labeling for Domain-Specific Inference
 
 This project trains on user-defined sentiment strings, not public datasets. It demonstrates a reproducible workflow for creating labeled data, training a multi-class model, validating predictions, and deploying to embedded systems using X-CUBE-AI. The approach applies broadly to any scenario where structured labels are used — such as anomaly detection, fault classification, or domain-specific categorization — and supports full parity between desktop inference and embedded deployment.
@@ -7,6 +8,14 @@ This project trains on user-defined sentiment strings, not public datasets. It d
 This repository is **not a complete STM32 project**, but a **walkthrough** showing how to build, validate, and deploy a 5-class sentiment classifier on embedded hardware using Keras, TF-IDF vectorization, and X-CUBE-AI.
 
 It upgrades a previous 3-class naive model with finer granularity and full parity between desktop and embedded inference.
+
+---
+
+## ⚠️ Note on Model Output and Sentiment Interpretation
+
+While tokenization and class probabilities align with training labels, some semantic mismatches occur due to limited contextual understanding. For example, positive phrases like “A masterpiece” may be classified as **Extreme Negative** because the model lacks deeper context training.
+
+This highlights a common limitation in supervised models trained on user-labeled data without extensive semantic context. Interpret outputs carefully and consider expanding training data or applying context-aware techniques for improved accuracy.
 
 ---
 
